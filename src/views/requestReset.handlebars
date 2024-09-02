@@ -1,0 +1,11 @@
+<div class="login-container">
+  <h2>Password Reset</h2>
+  <form id="reset-form" action="/api/sessions/request-reset" method="POST">
+    <label for="email" class="form-label">Email:</label>
+    <input type="email" name="email" class="form-control" required />
+    <button type="submit" class="btn btn-login" id="send-reset-email">Send reset Email</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/public/js/resetPassword.js"></script>

@@ -1,0 +1,131 @@
+openapi: 3.0.1
+info:
+  title: Carts API
+  version: "1.0"
+tags:
+  - name: Carts
+    description: "Operaciones relacionadas con los carritos"
+paths:
+  /api/carts:
+    get:
+      tags:
+        - Carts
+      summary: Obtener todos los carritos
+      operationId: getCarts
+      responses:
+        '200':
+          description: Lista de carritos obtenida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+  /api/carts/{cid}:
+    get:
+      tags:
+        - Carts
+      summary: Obtener un carrito por ID
+      operationId: getCartById
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito obtenido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    delete:
+      tags:
+        - Carts
+      summary: Eliminar un carrito por ID
+      operationId: deleteCart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito eliminado
+  /api/carts/{cid}/product/{pid}:
+    put:
+      tags:
+        - Carts
+      summary: Actualizar productos en un carrito
+      operationId: updateCart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                units:
+                  type: number
+                  description: Unidades del producto
+              required:
+                - units
+      responses:
+        '200':
+          description: Carrito actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    delete:
+      tags:
+        - Carts
+      summary: Eliminar un producto de un carrito por ID
+      operationId: deleteProductFromCart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado del carrito
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del carrito
+        user:
+          type: string
+          description: ID del usuario asociado al carrito
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                description: ID del producto
+              units:
+                type: number
+                description: Unidades del producto

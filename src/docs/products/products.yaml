@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: Products API
+  description: API para gestionar los productos del sistema de e-commerce.
+  version: 1.0.0
+
+tags:
+  - name: Products
+    description: "Operaciones relacionadas con los productos"
+
+paths:
+  /api/products:
+    get:
+      tags:
+        - Products
+      summary: Obtiene todos los productos
+      responses:
+        '200':
+          description: Lista de productos
+        '500':
+          description: Error en el servidor
+    post:
+      tags:
+        - Products
+      summary: Crea un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Producto creado
+        '500':
+          description: Error en el servidor
+
+  /api/products/{pid}:
+    get:
+      tags:
+        - Products
+      summary: Obtiene un producto por ID
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto encontrado
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor
+    put:
+      tags:
+        - Products
+      summary: Actualiza un producto por ID
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Producto actualizado
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor
+    delete:
+      tags:
+        - Products
+      summary: Elimina un producto por ID
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del producto (lo crea la BD)
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: URL de la imagen del producto
+        code:
+          type: string
+          description: Código del producto
+        category:
+          type: string
+          description: Categoría del producto
+        status:
+          type: boolean
+          description: Estado del producto
+        stock:
+          type: number
+          description: Stock disponible del producto

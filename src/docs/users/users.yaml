@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: Users API
+  description: API para gestionar los usuarios del sistema de e-commerce.
+  version: 1.0.0
+
+tags:
+  - name: Users
+    description: "Operaciones relacionadas con los usuarios"
+
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Obtiene todos los usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+        '500':
+          description: Error en el servidor
+
+  /api/users/register:
+    post:
+      tags:
+        - Users
+      summary: Registra un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: Nombre del usuario
+                last_name:
+                  type: string
+                  description: Apellido del usuario
+                email:
+                  type: string
+                  description: Correo electrónico del usuario
+                age:
+                  type: number
+                  description: Edad del usuario
+                password:
+                  type: string
+                  description: Contraseña del usuario
+                role:
+                  type: string
+                  enum: ['user', 'premium']
+                  description: Rol del usuario
+              required:
+                - first_name
+                - last_name
+                - email
+                - age
+                - password
+                - role
+      responses:
+        '201':
+          description: Usuario creado
+        '500':
+          description: Error en el servidor
+
+  /api/users/{uid}:
+    get:
+      tags:
+        - Users
+      summary: Obtiene un usuario por ID
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario encontrado
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error en el servidor
+    delete:
+      tags:
+        - Users
+      summary: Elimina un usuario por ID
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario eliminado
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error en el servidor
+          
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del usuario
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        email:
+          type: string
+          description: Correo electrónico del usuario
+        age:
+          type: number
+          description: Edad del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+        githubId:
+          type: string
+          description: ID de GitHub del usuario
+        cart:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: ID del carrito asociado
+        role:
+          type: string
+          enum: ['user', 'premium']
+          description: Rol del usuario
+        resetToken:
+          type: string
+          description: Token de restablecimiento de contraseña
